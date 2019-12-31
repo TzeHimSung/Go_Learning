@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 // const
 const (
 	c0 = iota
@@ -37,10 +35,9 @@ func main() {
 
 	// array
 	// const maxn int = 100
-	// var arr [maxn]int
-	// for i := 0; i < maxn; i++ {
-	// 	arr[i] = i
-	// 	fmt.Printf("%d ", arr[i])
+	// arr := [maxn]int{0, 1, 2, 3}
+	// for _, i := range arr { // Attention _ !
+	// 	fmt.Printf("%d ", i)
 	// }
 	// fmt.Println()
 	// brr := [...]int{1, 2, 3}
@@ -68,22 +65,73 @@ func main() {
 	// b := make([]int, 10, 15)
 	// fmt.Printf("%v\n", a)
 	// fmt.Printf("%v\n", b)
-	a := [...]int{0, 1, 2, 3, 4, 5, 6}
-	b := make([]int, 2, 4) // [0, 0], it's empty
-	c := a[0:3]            // [0, 1, 2]
-	fmt.Println(len(b))    // 2
-	fmt.Println(cap(b))    // 4
-	b = append(b, 1)       // append a 1 to end of b
-	fmt.Println(b)
-	fmt.Println(len(b))
-	fmt.Println(cap(b))
-	b = append(b, c...)
-	fmt.Println(b)
-	fmt.Println(len(b))
-	fmt.Println(cap(b))
-	d := make([]int, 2, 2)
-	copy(d, c)
-	fmt.Println(d)
-	fmt.Println(len(d))
-	fmt.Println(cap(d))
+	// a := [...]int{0, 1, 2, 3, 4, 5, 6}
+	// b := make([]int, 2, 4) // [0, 0], it's empty
+	// c := a[0:3]            // [0, 1, 2]
+	// // fmt.Println(len(b))    // 2
+	// // fmt.Println(cap(b))    // 4
+	// b = append(b, 1)       // append a 1 to end of b
+	// fmt.Println(b)         // [0, 0, 1]
+	// fmt.Println(len(b))    // 3
+	// fmt.Println(cap(b))    // 4, not changed
+	// fmt.Println(cap(c))    // 7, it's length of array a
+	// b = append(b, c...)    // append c to end of b
+	// fmt.Println(b)         // [0, 0, 1, 0 ,1, 2]
+	// fmt.Println(len(b))    // 6
+	// fmt.Println(cap(b))    // why it is 8, not 7?
+	// d := make([]int, 2, 2) // [0, 0], it's empty
+	// copy(d, c)
+	// fmt.Println(d)      // [0, 1]
+	// fmt.Println(len(d)) // 2
+	// fmt.Println(cap(d)) // 2
+	// str := "hello, 世界"
+	// aa := []byte(str)
+	// ba := []rune(str)
+	// for _, i := range aa {
+	// 	fmt.Print(i)
+	// 	fmt.Print(" ")
+	// }
+	// for _, i := range ba {
+	// 	fmt.Print(i)
+	// 	fmt.Print(" ")
+	// }
+
+	// map
+	// ma := map[string]int{"a": 1, "b": 2}
+	// for a, b := range ma {
+	// 	fmt.Print(a)
+	// 	fmt.Print(" ")
+	// 	fmt.Println(b)
+	// }
+	// mp1 := make(map[int]string)
+	// mp2 := make(map[int]string, 10) // fixed length
+	// mp1[1] = "tom"
+	// mp2[1] = "jerry"
+	// mp1[2] = "haha"
+	// for _, i := range mp1 { // the order is not fixed
+	// 	fmt.Print(i)
+	// 	fmt.Print(" ")
+	// }
+	// fmt.Println()
+	// delete(mp1, 1)
+	// for _, i := range mp1 {
+	// 	fmt.Print(i)
+	// 	fmt.Print(" ")
+	// }
+	// type User struct {
+	// 	name string
+	// 	age  int
+	// }
+	// ma := make(map[int]User)
+	// andes := User{
+	// 	name: "andes",
+	// 	age:  18,
+	// }
+	// ma[1] = andes
+	// fmt.Println(andes.name, andes.age)
+	// andes.age = 19
+	// fmt.Println(andes.name, andes.age)
+
+	// struct
+
 }
