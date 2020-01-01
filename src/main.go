@@ -1,211 +1,271 @@
 package main
 
-// const
-const (
-	c0 = iota
-	c1
-	c2
-)
+// import "fmt"
 
-func main() {
-	// string and rune
-	// s := "hello world"
-	// c := []rune(s)
-	// for i := 0; i < len(c); i++ {
-	// 	fmt.Print(s[i])
-	// 	fmt.Print(" ")
-	// }
+// // A ... this function can be viewed by other package
+// func A() {
+// 	// do something
+// }
 
-	// pointer
-	// var a = 11
-	// p := &a
-	// fmt.Println(*p)
+// func add(a, b int) int {
+// 	return a + b
+// }
 
-	// struct pointer
-	// type User struct {
-	// 	name string
-	// 	age  int
-	// }
-	// andes := User{
-	// 	name: "adnes",
-	// 	age:  18,
-	// }
-	// pp := &andes
-	// fmt.Println(pp.name)
+// func add2(a, b int) (sum int) {
+// 	sum = a + b
+// 	return
+// }
 
-	// array
-	// const maxn int = 100
-	// arr := [maxn]int{0, 1, 2, 3}
-	// for _, i := range arr { // Attention _ !
-	// 	fmt.Printf("%d ", i)
-	// }
-	// fmt.Println()
-	// brr := [...]int{1, 2, 3}
-	// for i := 0; i < 3; i++ {
-	// 	fmt.Printf("%d ", brr[i])
-	// }
-	// a := [3]int{1: 1, 2: 3}
-	// for i := 0; i < 3; i++ {
-	// 	fmt.Printf("%d ", a[i])
-	// }
-	// a := [...]int{1, 2, 3}
-	// for i := range a {
-	// 	fmt.Printf("%d ", a[i])
-	// }
+// func swap(a, b int) (int, int) {
+// 	return b, a
+// }
 
-	// slice
-	// var array = [...]int{0, 1, 2, 3, 4, 5, 6, 7}
-	// s1 := array[0:4]
-	// s2 := array[:4]
-	// s3 := array[2:]
-	// fmt.Printf("%v\n", s1)
-	// fmt.Printf("%v\n", s2)
-	// fmt.Printf("%v\n", s3)
-	// a := make([]int, 10)
-	// b := make([]int, 10, 15)
-	// fmt.Printf("%v\n", a)
-	// fmt.Printf("%v\n", b)
-	// a := [...]int{0, 1, 2, 3, 4, 5, 6}
-	// b := make([]int, 2, 4) // [0, 0], it's empty
-	// c := a[0:3]            // [0, 1, 2]
-	// // fmt.Println(len(b))    // 2
-	// // fmt.Println(cap(b))    // 4
-	// b = append(b, 1)       // append a 1 to end of b
-	// fmt.Println(b)         // [0, 0, 1]
-	// fmt.Println(len(b))    // 3
-	// fmt.Println(cap(b))    // 4, not changed
-	// fmt.Println(cap(c))    // 7, it's length of array a
-	// b = append(b, c...)    // append c to end of b
-	// fmt.Println(b)         // [0, 0, 1, 0 ,1, 2]
-	// fmt.Println(len(b))    // 6
-	// fmt.Println(cap(b))    // why it is 8, not 7?
-	// d := make([]int, 2, 2) // [0, 0], it's empty
-	// copy(d, c)
-	// fmt.Println(d)      // [0, 1]
-	// fmt.Println(len(d)) // 2
-	// fmt.Println(cap(d)) // 2
-	// str := "hello, 世界"
-	// aa := []byte(str)
-	// ba := []rune(str)
-	// for _, i := range aa {
-	// 	fmt.Print(i)
-	// 	fmt.Print(" ")
-	// }
-	// for _, i := range ba {
-	// 	fmt.Print(i)
-	// 	fmt.Print(" ")
-	// }
+// func main() {
+// 	fmt.Println(add(3, 4))
+// 	fmt.Println(add2(3, 4))
+// 	fmt.Println(swap(3, 4))
+// }
 
-	// map
-	// ma := map[string]int{"a": 1, "b": 2}
-	// for a, b := range ma {
-	// 	fmt.Print(a)
-	// 	fmt.Print(" ")
-	// 	fmt.Println(b)
-	// }
-	// mp1 := make(map[int]string)
-	// mp2 := make(map[int]string, 10) // fixed length
-	// mp1[1] = "tom"
-	// mp2[1] = "jerry"
-	// mp1[2] = "haha"
-	// for _, i := range mp1 { // the order is not fixed
-	// 	fmt.Print(i)
-	// 	fmt.Print(" ")
-	// }
-	// fmt.Println()
-	// delete(mp1, 1)
-	// for _, i := range mp1 {
-	// 	fmt.Print(i)
-	// 	fmt.Print(" ")
-	// }
-	// type User struct {
-	// 	name string
-	// 	age  int
-	// }
-	// ma := make(map[int]User)
-	// andes := User{
-	// 	name: "andes",
-	// 	age:  18,
-	// }
-	// ma[1] = andes
-	// fmt.Println(andes.name, andes.age)
-	// andes.age = 19
-	// fmt.Println(andes.name, andes.age)
+// func chvalue(a int) int {
+// 	a = a + 1
+// 	return a
+// }
 
-	// struct
-	// type Person struct {
-	// 	Name string
-	// 	Age  int
-	// }
-	// type Student struct {
-	// 	*Person
-	// 	Number int
-	// }
-	// a := Person{"Tom", 21}
-	// p := &Person{
-	// 	Name: "tata",
-	// 	Age:  12,
-	// }
-	// s := Student{
-	// 	Person: p,
-	// 	Number: 110,
-	// }
-	// fmt.Println(a.Age, a.Name)
-	// fmt.Println(s.Age, s.Name, s.Number)
+// func chpointer(a *int) {
+// 	*a = *a + 1
+// 	return
+// }
 
-	// if
-	// x := 5
-	// y := 10
-	// if x <= y {
-	// 	fmt.Println(y)
-	// } else {
-	// 	fmt.Println(x)
-	// }
-	// x := 5
-	// y := 10
-	// if a := 7; a < x {
-	// 	fmt.Println(x)
-	// } else if a < y {
-	// 	fmt.Println(y)
-	// } else {
-	// 	fmt.Println(a)
-	// }
+// func main() {
+// 	a := 10
+// 	chvalue(a) // value copy
+// 	fmt.Println(a)
+// 	chpointer(&a) // copy address value
+// 	fmt.Println(a)
+// }
 
-	// switch
-	// switch i := "y"; i {
-	// case "y", "Y":
-	// 	fmt.Println("YES")
-	// 	fallthrough
-	// case "n", "N":
-	// 	fmt.Println("NO")
-	// }
-	// score := 85
-	// grade := ' '
-	// switch {
-	// case score >= 90:
-	// 	grade = 'A'
-	// case score >= 80:
-	// 	grade = 'B'
-	// case score >= 70:
-	// 	grade = 'C'
-	// case score >= 60:
-	// 	grade = 'D'
-	// default:
-	// 	grade = 'F'
-	// }
-	// fmt.Printf("grade=%c\n", grade)
+// func add(a, b int) (sum int) {
+// 	sum = a + b
+// 	return
+// }
 
-	// for
-	// L1:
-	// 	for i := 0; ; i++ {
-	// 		for j := 0; ; j++ {
-	// 			if i >= 5 {
-	// 				continue L1
-	// 			}
-	// 			if j > 10 {
-	// 				continue
-	// 			}
-	// 		}
-	// 	}
+// func sum(arr ...int) (sum int) { // this argument is a slice, "..." is after slice's name, not front at type name
+// 	for _, v := range arr { // enum each index and value
+// 		sum = sum + v
+// 	}
+// 	return
+// }
 
-}
+// func sumb(arr []int) (sum int) {
+// 	for _, v := range arr {
+// 		sum = sum + v
+// 	}
+// 	return
+// }
+
+// func main() {
+// 	sli := []int{1, 2, 3, 4} // this is slice
+// 	// arr := [...]int{1, 2, 3, 4} // this is array
+// 	fmt.Println(sum(sli...)) // array can not do that
+// 	fmt.Println(sumb(sli))
+// 	// this two function is not same type
+// 	fmt.Printf("%T\n", add)
+// 	fmt.Printf("%T\n", sum)
+// 	fmt.Printf("%T\n", sumb)
+// }
+
+// func add(a, b int) int {
+// 	return a + b
+// }
+
+// func sub(a, b int) int {
+// 	return a - b
+// }
+
+// //Op ...
+// type Op func(int, int) int
+
+// func do(f Op, a, b int) int {
+// 	return f(a, b)
+// }
+
+// func main() {
+// 	a := do(add, 1, 2)
+// 	s := do(sub, 1, 2)
+// 	f := add
+// 	fmt.Println(a, s, f(1, 2))
+// }
+
+// var sum = func(a, b int) int {
+// 	return a + b
+// }
+
+// func doinput(f func(int, int) int, a, b int) int {
+// 	return f(a, b)
+// }
+
+// func wrap(op string) func(int, int) int {
+// 	switch op {
+// 	case "add":
+// 		return func(a, b int) int {
+// 			return a + b
+// 		}
+// 	case "sub":
+// 		return func(a, b int) int {
+// 			return a - b
+// 		}
+// 	default:
+// 		return nil
+// 	}
+// }
+
+// func main() {
+// 	defer func() { // no need to care what it is
+// 		if err := recover(); err != nil {
+// 			fmt.Println(err)
+// 		}
+// 	}()
+
+// 	sum(1, 2)
+
+// 	doinput(func(x, y int) int {
+// 		return x + y
+// 	}, 1, 2)
+
+// 	opFunc := wrap("add")
+// 	re := opFunc(2, 3)
+// 	fmt.Println(re)
+// }
+
+// func f() int {
+// 	a := 0
+// 	defer func(i int) {
+// 		println("defer i =", i)
+// 	}(a)
+
+// 	a++
+// 	return a
+// }
+
+// func main() {
+// 	// defer func() {
+// 	// 	println("first")
+// 	// }()
+
+// 	// defer func() {
+// 	// 	println("second")
+// 	// }()
+
+// 	// println("function body")
+
+// 	// f()
+// }
+
+// func main() {
+// 	defer func() {
+// 		println("defer")
+// 	}()
+// 	println("func body")
+// 	os.Exit(1)
+// }
+
+// func copyFile(dst, src string) (w int64, err error) {
+// 	src, err := os.Open(src)
+// 	if err != nil {
+// 		return
+// 	}
+// 	dst, err := os.Create(dst)
+// 	if err != nil {
+// 		src.Close()
+// 		return
+// 	}
+// 	w, err = io.Copy(dst, src)
+// 	dst.Close()
+// 	sec.Close()
+// 	return
+// }
+
+// func copyFile(dst, src string) (w int64, err error) {
+// 	src, err := os.Open(src)
+// 	if err != nil {
+// 		return
+// 	}
+// 	defer src.Close()
+// 	dst, err := os.Create(dst)
+// 	if err != nil {
+// 		return
+// 	}
+// 	defer dst.Close()
+// 	w, err = io.Copy(dst, src)
+// 	return
+// }
+
+// closure
+// func fa(a int) func(i int) int {
+// 	return func(i int) int {
+// 		println(&a, a) // print the address and current value of a
+// 		a = a + i
+// 		return a
+// 	}
+// }
+
+// func main() {
+// 	f := fa(1)    // create a var a
+// 	g := fa(1)    // create a var a
+// 	println(f(1)) // these two call of f called the same copy of a
+// 	println(f(1))
+// 	println(g(1)) // same of above, but this a is different from the above one (from address we can know)
+// 	println(g(1))
+// }
+
+// var (
+// 	a = 0
+// )
+
+// func fa() func(i int) int {
+// 	return func(i int) int {
+// 		println(&a, a)
+// 		a = a + i
+// 		return a
+// 	}
+// }
+
+// func main() {
+// 	f := fa()
+// 	g := fa()
+// 	println(f(1))
+// 	println(f(1))
+// 	println(g(1))
+// 	println(g(1))
+// }
+
+// func fa(base int) (func(int) int, func(int) int) {
+// 	println(&base, base)
+// 	add := func(i int) int {
+// 		base += i
+// 		println(&base, base)
+// 		return base
+// 	}
+// 	sub := func(i int) int {
+// 		base -= i
+// 		println(&base, base)
+// 		return base
+// 	}
+// 	return add, sub
+// }
+
+// func main() {
+// 	f, g := fa(0)
+// 	s, k := fa(0)
+// 	println(f(1), g(2))
+// 	println(s(1), k(2))
+// 	// result
+// 	// 0xc000098000 0
+// 	// 0xc000098008 0
+// 	// 0xc000098000 1
+// 	// 0xc000098000 -1
+// 	// 1 -1
+// 	// 0xc000098008 1
+// 	// 0xc000098008 -1
+// 	// 1 -1
+// }

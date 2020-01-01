@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // const
 const (
 	c0 = iota
@@ -172,28 +174,28 @@ func main() {
 	// }
 
 	// switch
-	// switch i := "y"; i {
-	// case "y", "Y":
-	// 	fmt.Println("YES")
-	// 	fallthrough
-	// case "n", "N":
-	// 	fmt.Println("NO")
-	// }
-	// score := 85
-	// grade := ' '
-	// switch {
-	// case score >= 90:
-	// 	grade = 'A'
-	// case score >= 80:
-	// 	grade = 'B'
-	// case score >= 70:
-	// 	grade = 'C'
-	// case score >= 60:
-	// 	grade = 'D'
-	// default:
-	// 	grade = 'F'
-	// }
-	// fmt.Printf("grade=%c\n", grade)
+	switch i := "y"; i {
+	case "y", "Y":
+		fmt.Println("YES")
+		fallthrough
+	case "n", "N":
+		fmt.Println("NO")
+	}
+	score := 85
+	grade := ' '
+	switch {
+	case score >= 90:
+		grade = 'A'
+	case score >= 80:
+		grade = 'B'
+	case score >= 70:
+		grade = 'C'
+	case score >= 60:
+		grade = 'D'
+	default:
+		grade = 'F'
+	}
+	fmt.Printf("grade=%c\n", grade)
 
 	// for
 	// L1:
