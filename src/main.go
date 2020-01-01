@@ -1,4 +1,4 @@
-package main
+// package main
 
 // import "fmt"
 
@@ -268,4 +268,18 @@ package main
 // 	// 0xc000098008 1
 // 	// 0xc000098008 -1
 // 	// 1 -1
+// }
+
+// func except() {
+// 	recover()
+// }
+
+// func test() {
+// 	defer except()
+// 	panic("test panic")
+// }
+
+// func main() {
+// 	test()
+
 // }
