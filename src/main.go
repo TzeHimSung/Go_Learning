@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 // Person ... named type
 // type Person struct {
 // 	name string
@@ -107,19 +105,175 @@ import "fmt"
 // }
 
 // Person ...
-type Person struct {
-	name string
-	age  int
-}
+// type Person struct {
+// 	name string
+// 	age  int
+// }
 
-func main() {
-	a := Person{"andes", 18}
-	b := Person{
-		"andes",
-		18,
-	}
-	c := Person{
-		"andes",
-		18}
-	fmt.Println(a, b, c)
-}
+// Element ...
+// type Element struct {
+// 	next, prev *Element
+// 	Value      interface{}
+// }
+
+// func main() {
+// a := Person{"andes", 18}
+// b := Person{
+// 	"andes",
+// 	18,
+// }
+// c := Person{
+// 	"andes",
+// 	18}
+// fmt.Println(a, b, c)
+// p := new(Person) // p is a pointer here
+// p2 := Person{}
+// p2.age = 11
+// p2.name = "andes"
+// fmt.Println(p, p2)
+// fmt.Println("111")
+// }
+
+// method
+// func (t TypeName) MethodName(ParamList) Returnlist {
+
+// }
+
+// func (t *TypeName) MethodName(ParamList) Returnlist {
+
+// }
+
+// SliceInt ...
+// type SliceInt []int
+
+// // Sum ...
+// func (s SliceInt) Sum() (ret int) {
+// 	ret = 0
+// 	for _, i := range s {
+// 		ret += i
+// 	}
+// 	return
+// }
+
+// func main() {
+// 	var s SliceInt = []int{1, 2, 3, 4}
+// 	fmt.Println(s.Sum())
+// }
+
+// Map ...
+// type Map map[string]string
+// type myInt int
+
+// // Print ...
+// func (m Map) Print() {
+// 	for _, key := range m {
+// 		fmt.Print(key, " ")
+// 	}
+// }
+
+// func main() {
+// 	var a myInt = 10
+// 	var b myInt = 10
+// 	c := a + b
+// 	d := a * b
+// 	fmt.Println(c)
+// 	fmt.Println(d)
+// }
+
+// type t struct {
+// 	a int
+// }
+
+// func (tt t) get() int {
+// 	return tt.a
+// }
+
+// func (tt *t) set(val int) {
+// 	tt.a = val
+// }
+
+// func main() {
+// 	tt := &t{}
+// 	tt.set(2)
+// 	fmt.Println(tt.get())
+// }
+
+// type t struct {
+// 	a int
+// }
+
+// func (tt t) get() int {
+// 	return tt.a
+// }
+
+// func (tt *t) set(val int) {
+// 	tt.a = val
+// }
+
+// func (tt *t) print() {
+// 	// %p is the address of var
+// 	fmt.Printf("%p %v %d\n", tt, tt, tt.a)
+// }
+
+// func main() {
+// 	tt := &t{}
+// 	f := tt.set
+// 	f(2)
+// 	tt.print()
+// 	f(3)
+// 	tt.print()
+// }
+
+// type t struct {
+// 	a int
+// }
+
+// func (tt *t) set(val int) {
+// 	tt.a = val
+// }
+
+// func (tt t) get() int {
+// 	return tt.a
+// }
+
+// func (tt *t) print() {
+// 	fmt.Printf("%p %v %d\n", tt, tt, tt.a)
+// }
+
+// func main() {
+// 	tt := t{a: 1}
+// 	fmt.Println(tt.get())
+// 	(*t).set(&tt, 2)
+// 	fmt.Println((t).get(tt))
+// }
+
+// Int ...
+// type Int int
+
+// // Max ...
+// func (a Int) Max(b Int) Int {
+// 	if a >= b {
+// 		return a
+// 	}
+// 	return b
+// }
+
+// func (a *Int) set(b Int) {
+// 	*a = b
+// }
+
+// func (a Int) print() {
+// 	fmt.Printf("value = %d\n", a)
+// }
+
+// func main() {
+// 	var a Int = 10
+// 	var b Int = 20
+// 	c := a.Max(b)
+// 	c.print()
+// 	(&c).print()
+// 	(&a).set(30)
+// 	a.print()
+// 	a.set(10)
+// 	a.print()
+// }
