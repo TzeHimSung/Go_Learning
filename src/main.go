@@ -234,40 +234,40 @@
 // 	}
 // }
 
-package main
+// package main
 
-import "fmt"
+// import "fmt"
 
-// Inter ...
-type Inter interface {
-	Ping()
-	Pang()
-}
+// // Inter ...
+// type Inter interface {
+// 	Ping()
+// 	Pang()
+// }
 
-// St ...
-type St struct{}
+// // St ...
+// type St struct{}
 
-// Ping ...
-func (St) Ping() {
-	println("ping")
-}
+// // Ping ...
+// func (St) Ping() {
+// 	println("ping")
+// }
 
-// Pang ...
-func (*St) Pang() {
-	println("pang")
-}
+// // Pang ...
+// func (*St) Pang() {
+// 	println("pang")
+// }
 
-func main() {
-	var st *St = nil
-	var it Inter = st
-	fmt.Printf("%p\n", st)
-	fmt.Printf("%p\n", it)
-	if it != nil {
-		it.Pang()
-		// the next centence will lead a panic
-		// it.Ping()
-	}
-}
+// func main() {
+// 	var st *St = nil
+// 	var it Inter = st
+// 	fmt.Printf("%p\n", st)
+// 	fmt.Printf("%p\n", it)
+// 	if it != nil {
+// 		it.Pang()
+// 		// the next centence will lead a panic
+// 		// it.Ping()
+// 	}
+// }
 
 // type itab struct {
 // 	inter *interfacetype
@@ -276,3 +276,4 @@ func main() {
 // 	_     [4]byte
 // 	fun   [1]uintptr // variable sized. fun[0]==0 means _type does not implement inter.
 // }
+
