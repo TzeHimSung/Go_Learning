@@ -208,28 +208,71 @@
 // 	}
 // }
 
+// package main
+
+// import (
+// 	"fmt"
+// 	"io"
+// 	"log"
+// 	"os"
+// )
+
+// func main() {
+// 	f, err := os.OpenFile("notes.txt", os.O_RDWR|os.O_CREATE, 0755)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	defer f.Close()
+// 	var i io.Reader = f
+// 	switch v := i.(type) {
+// 	case *os.File, io.ReadWriter:
+// 		if v == i {
+// 			fmt.Println(true)
+// 		}
+// 	default:
+// 		return
+// 	}
+// }
+
 package main
 
-import (
-	"fmt"
-	"io"
-	"log"
-	"os"
-)
+import "fmt"
+
+// Inter ...
+type Inter interface {
+	Ping()
+	Pang()
+}
+
+// St ...
+type St struct{}
+
+// Ping ...
+func (St) Ping() {
+	println("ping")
+}
+
+// Pang ...
+func (*St) Pang() {
+	println("pang")
+}
 
 func main() {
-	f, err := os.OpenFile("notes.txt", os.O_RDWR|os.O_CREATE, 0755)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer f.Close()
-	var i io.Reader = f
-	switch v := i.(type) {
-	case *os.File, io.ReadWriter:
-		if v == i {
-			fmt.Println(true)
-		}
-	default:
-		return
+	var st *St = nil
+	var it Inter = st
+	fmt.Printf("%p\n", st)
+	fmt.Printf("%p\n", it)
+	if it != nil {
+		it.Pang()
+		// the next centence will lead a panic
+		// it.Ping()
 	}
 }
+
+// type itab struct {
+// 	inter *interfacetype
+// 	_type *_type
+// 	hash  uint32 // copy of _type.hash. Used for type switches.
+// 	_     [4]byte
+// 	fun   [1]uintptr // variable sized. fun[0]==0 means _type does not implement inter.
+// }
