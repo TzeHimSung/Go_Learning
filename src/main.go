@@ -308,3 +308,33 @@
 // 	pkgpath name // 接口所属包的名字信息，name内存放的不仅有名称，还有描述信息
 // 	mhdr    []imethod // 接口的方法
 // }
+
+package main
+
+import "fmt"
+
+// Caler ...
+type Caler interface {
+	Add(a, b int) int
+	Sub(a, b int) int
+}
+
+// Adder ...
+type Adder struct {
+	id int
+}
+
+// Add ...
+func (adder Adder) Add(a, b int) int {
+	return a + b
+}
+
+// Sub ...
+func (adder Adder) Sub(a, b int) int {
+	return a - b
+}
+
+func main() {
+	var m Caler = Adder{id: 1234}
+	fmt.Println(m.Add(1, 2))
+}
