@@ -60,11 +60,12 @@
 // 	fmt.Println("GOMAXPROCS =", runtime.GOMAXPROCS(0))
 // }
 
-package main
+// package main
 
-func main() {
-	// 创建一个没有缓冲区的通道，通道存放元素类型为datatype
-	make(chan datatype)
-	// 创建一个缓冲区大小为10的通道，通道存放元素类型为datatype
-	make(chan datatype2, 10)
-}
+// func main() {
+// 	// 创建一个没有缓冲区的通道，通道存放元素类型为datatype
+// 	make(chan datatype)
+// 	// 创建一个缓冲区大小为10的通道，通道存放元素类型为datatype
+// 	make(chan datatype2, 10)
+// }
+
