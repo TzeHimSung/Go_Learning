@@ -152,21 +152,206 @@
 // 	wg.Wait()
 // }
 
+// package main
+
+// import "fmt"
+
+// func main() {
+// 	ch := make(chan int, 1)
+// 	go func(chan int) {
+// 		for {
+// 			select {
+// 			case ch <- 0:
+// 			case ch <- 1:
+// 			}
+// 		}
+// 	}(ch)
+// 	for i := 0; i < 10; i++ {
+// 		fmt.Println(<-ch)
+// 	}
+// }
+
+// package main
+
+// import (
+// 	"fmt"
+// 	"math/rand"
+// 	"runtime"
+// )
+
+// func generateIntA(done chan struct{}) chan int {
+// 	ch := make(chan int)
+// 	go func(chan int) {
+// 	Lable:
+// 		for {
+// 			select {
+// 			case ch <- rand.Int():
+// 			case <-done:
+// 				break Lable
+// 			}
+// 		}
+// 		close(ch)
+// 	}(ch)
+// 	return ch
+// }
+
+// func main() {
+// 	done := make(chan struct{})
+// 	ch := generateIntA(done)
+// 	fmt.Println(<-ch)
+// 	fmt.Println(<-ch)
+// 	close(done)
+// 	fmt.Println(<-ch)
+// 	fmt.Println(<-ch)
+// 	fmt.Println("NumGoroutine =", runtime.NumGoroutine())
+// }
+
+// package main
+
+// import (
+// 	"fmt"
+// 	"math/rand"
+// )
+
+// func generateIntA() chan int {
+// 	ch := make(chan int, 10)
+// 	// 启动一个goroutine用于生成随机数，函数返回一个通道用于获取随机数
+// 	go func() {
+// 		for {
+// 			ch <- rand.Int()
+// 		}
+// 	}()
+// 	return ch
+// }
+
+// func generateIntB() chan int {
+// 	ch := make(chan int, 10)
+// 	go func() {
+// 		for {
+// 			ch <- rand.Int()
+// 		}
+// 	}()
+// 	return ch
+// }
+
+// func generateInt() chan int {
+// 	ch := make(chan int, 10)
+// 	go func() {
+// 		for {
+// 			// 使用select的扇入技术来增加生成的随机源
+// 			select {
+// 			case ch <- <-generateIntA():
+// 			case ch <- <-generateIntB():
+// 			}
+// 		}
+// 	}()
+// 	return ch
+// }
+
+// func main() {
+// 	ch := generateInt()
+// 	for i := 0; i < 10; i++ {
+// 		fmt.Println(<-ch)
+// 	}
+// }
+
+// package main
+
+// import (
+// 	"fmt"
+// 	"math/rand"
+// )
+
+// func generateIntA(done chan struct{}) chan int {
+// 	ch := make(chan int)
+// 	go func() {
+// 	Lable:
+// 		for {
+// 			// 通过select监听一个信号chan来确定是否停止生成
+// 			select {
+// 			case ch <- rand.Int():
+// 			case <-done:
+// 				break Lable
+// 			}
+// 		}
+// 		close(ch)
+// 	}()
+// 	return ch
+// }
+
+// func main() {
+// 	done := make(chan struct{})
+// 	ch := generateIntA(done)
+// 	fmt.Println(<-ch)
+// 	fmt.Println(<-ch)
+// 	close(done)
+// 	for v := range ch {
+// 		fmt.Print(v)
+// 	}
+// }
+
 package main
+
+import "math/rand"
 
 import "fmt"
 
-func main() {
-	ch := make(chan int, 1)
-	go func(chan int) {
+func generateIntA(done chan struct{}) chan int {
+	ch := make(chan int, 5)
+	go func() {
+	Lable:
 		for {
 			select {
-			case ch <- 0:
-			case ch <- 1:
+			case ch <- rand.Int():
+			case <-done:
+				break Lable
 			}
 		}
-	}(ch)
+		close(ch)
+	}()
+	return ch
+}
+
+func generateIntB(done chan struct{}) chan int {
+	ch := make(chan int, 10)
+	go func() {
+	Lable:
+		for {
+			select {
+			case ch <- rand.Int():
+			case <-done:
+				break Lable
+			}
+		}
+		close(ch)
+	}()
+	return ch
+}
+
+func generateInt(done chan struct{}) chan int {
+	ch := make(chan int)
+	send := make(chan struct{})
+	go func() {
+	Lable:
+		for {
+			select {
+			case ch <- <-generateIntA(send):
+			case ch <- <-generateIntB(send):
+			case <-done:
+				break Lable
+			}
+		}
+		close(ch)
+	}()
+	return ch
+}
+
+func main() {
+	done := make(chan struct{})
+	ch := generateInt(done)
 	for i := 0; i < 10; i++ {
 		fmt.Println(<-ch)
 	}
+	done <- struct{}{}
+	fmt.Println("stop generate")
 }
