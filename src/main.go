@@ -478,103 +478,186 @@
 // 	fmt.Println("sum =", sum)
 // }
 
+// package main
+
+// import "fmt"
+
+// // NUMBER 是工作池的goroutine数目
+// const NUMBER = 10
+
+// // 工作任务
+// type task struct {
+// 	begin, end int
+// 	result     chan<- int
+// }
+
+// // 任务处理：计算从begin到end的和
+// // 执行结果写入结果chan result
+// func (t *task) do() {
+// 	sum := 0
+// 	for i := t.begin; i <= t.end; i++ {
+// 		sum += i
+// 	}
+// 	t.result <- sum
+// }
+
+// // 初始化待处理task chan
+// func initTask(taskchan chan<- task, r chan int, p int) {
+// 	qu := p / 10
+// 	mod := p % 10
+// 	high := qu * 10
+// 	for j := 0; j < qu; j++ {
+// 		b := 10*j + 1
+// 		e := 10 * (j + 1)
+// 		tsk := task{
+// 			begin:  b,
+// 			end:    e,
+// 			result: r,
+// 		}
+// 		taskchan <- tsk
+// 	}
+// 	if mod != 0 {
+// 		tsk := task{
+// 			begin:  high + 1,
+// 			end:    p,
+// 			result: r,
+// 		}
+// 		taskchan <- tsk
+// 	}
+// 	close(taskchan)
+// }
+
+// // 读取task chan并分发到worker goroutine处理，总的数量是workers
+// func distributeTask(taskchan <-chan task, workers int, done chan struct{}) {
+// 	for i := 0; i < workers; i++ {
+// 		go processTask(taskchan, done)
+// 	}
+// }
+
+// // 工作goroutine处理具体工作，并将处理结果发送到结果chan
+// func processTask(taskchan <-chan task, done chan struct{}) {
+// 	for t := range taskchan {
+// 		t.do()
+// 	}
+// 	done <- struct{}{}
+// }
+
+// // 通过done channer同步等待所有工作goroutine的结束，然后关闭结果chan
+// func closeResult(done chan struct{}, resultchan chan int, workers int) {
+// 	for i := 0; i < workers; i++ {
+// 		<-done
+// 	}
+// 	close(done)
+// 	close(resultchan)
+// }
+
+// // 读取结果通道，汇总结果
+// func processResult(resultchan chan int) int {
+// 	sum := 0
+// 	for r := range resultchan {
+// 		sum += r
+// 	}
+// 	return sum
+// }
+
+// func main() {
+// 	workers := NUMBER
+// 	// 工作通道
+// 	taskchan := make(chan task, 10)
+// 	// 结果通道
+// 	resultchan := make(chan int, 10)
+// 	// worker信号通道
+// 	done := make(chan struct{}, 10)
+// 	// 初始化task的goroutine，计算100个自然数之和
+// 	go initTask(taskchan, resultchan, 100)
+// 	// 分发任务到number个goroutine池
+// 	distributeTask(taskchan, workers, done)
+// 	// 获取各个goroutine处理完任务的通知，并关闭结果通道
+// 	go closeResult(done, resultchan, workers)
+// 	// 通过结果通道获取结果并汇总
+// 	sum := processResult(resultchan)
+// 	fmt.Println("sum =", sum)
+// }
+
+// package main
+
+// import (
+// 	"fmt"
+// 	"time"
+// )
+
+// // 一个查询结构体
+// // 这里的sql和result是一个简单的抽象，具体的应用可能是更复杂的数据类型
+// type query struct {
+// 	sql, result chan string
+// }
+
+// // 执行query
+// func execQuery(q query) {
+// 	// 启动协程
+// 	go func() {
+// 		// 获取输入
+// 		sql := <-q.sql
+// 		// 访问数据库
+// 		// 输出结果通道
+// 		q.result <- "result from " + sql
+// 	}()
+// }
+
+// func main() {
+// 	// 初始化query
+// 	q := query{make(chan string, 1), make(chan string, 1)}
+// 	// 执行query，注意执行的时候无需准备参数
+// 	go execQuery(q)
+// 	// 发送参数
+// 	q.sql <- "select * from table"
+// 	// 做其他事情，通过time.Sleep()来描述
+// 	time.Sleep(1 * time.Second)
+// 	fmt.Println(<-q.result)
+// }
+
+// package main
+
+// import "time"
+
+// // Context .
+// type Context interface {
+// 	// 如果context实现了超时控制，则该方法返回ok true，deadline为超时时间，
+// 	// 否则ok为false
+// 	Deadline() (deadline time.Time, ok bool)
+// 	// 后端被调的goroutine应该监听该方法返回的chan，以便及时释放资源
+// 	Done() <-chan struct{}
+// 	// Done返回的chan收到通知的时候，才可以访问Err()获知因为什么原因被取消
+// 	Err() error
+// 	// 可以访问上游goroutine传递给下游goroutine的值
+// 	Value(key interface{}) interface{}
+// }
+
+// // 一个context对象如果实现了canceler接口，则可以被取消
+// type canceler interface {
+// 	// 创建cancel接口实例的goroutine调用cancel方法通知后续创建的goroutine退出
+// 	cancel(removeFromParent bool, err error)
+// 	// Done方法返回的chan需要后端goroutine来监听，并及时退出
+// 	Done() <-chan struct{}
+// }
+
 package main
 
-import "fmt"
+import "context"
 
-// NUMBER 是工作池的goroutine数目
-const NUMBER = 10
-
-// 工作任务
-type task struct {
-	begin, end int
-	result     chan<- int
+// 定义一个包含Context字段的新类型
+type otherContext struct {
+	context.Context
 }
 
-// 任务处理：计算从begin到end的和
-// 执行结果写入结果chan result
-func (t *task) do() {
-	sum := 0
-	for i := t.begin; i <= t.end; i++ {
-		sum += i
-	}
-	t.result <- sum
-}
+func work(ctx context.Context, name string) {
 
-// 初始化待处理task chan
-func initTask(taskchan chan<- task, r chan int, p int) {
-	qu := p / 10
-	mod := p % 10
-	high := qu * 10
-	for j := 0; j < qu; j++ {
-		b := 10*j + 1
-		e := 10 * (j + 1)
-		tsk := task{
-			begin:  b,
-			end:    e,
-			result: r,
-		}
-		taskchan <- tsk
-	}
-	if mod != 0 {
-		tsk := task{
-			begin:  high + 1,
-			end:    p,
-			result: r,
-		}
-		taskchan <- tsk
-	}
-	close(taskchan)
-}
-
-// 读取task chan并分发到worker goroutine处理，总的数量是workers
-func distributeTask(taskchan <-chan task, workers int, done chan struct{}) {
-	for i := 0; i < workers; i++ {
-		go processTask(taskchan, done)
-	}
-}
-
-// 工作goroutine处理具体工作，并将处理结果发送到结果chan
-func processTask(taskchan <-chan task, done chan struct{}) {
-	for t := range taskchan {
-		t.do()
-	}
-	done <- struct{}{}
-}
-
-// 通过done channer同步等待所有工作goroutine的结束，然后关闭结果chan
-func closeResult(done chan struct{}, resultchan chan int, workers int) {
-	for i := 0; i < workers; i++ {
-		<-done
-	}
-	close(done)
-	close(resultchan)
-}
-
-// 读取结果通道，汇总结果
-func processResult(resultchan chan int) int {
-	sum := 0
-	for r := range resultchan {
-		sum += r
-	}
-	return sum
 }
 
 func main() {
-	workers := NUMBER
-	// 工作通道
-	taskchan := make(chan task, 10)
-	// 结果通道
-	resultchan := make(chan int, 10)
-	// worker信号通道
-	done := make(chan struct{}, 10)
-	// 初始化task的goroutine，计算100个自然数之和
-	go initTask(taskchan, resultchan, 100)
-	// 分发任务到number个goroutine池
-	distributeTask(taskchan, workers, done)
-	// 获取各个goroutine处理完任务的通知，并关闭结果通道
-	go closeResult(done, resultchan, workers)
-	// 通过结果通道获取结果并汇总
-	sum := processResult(resultchan)
-	fmt.Println("sum =", sum)
+	// 使用context.Background()构建一个WithCancel类型的上下文
+	ctxa, cancel := context.WithCancel(context.Background())
+	// work模拟运行并检测前端的退出通知
+	go work(ctxa, "work1")
+	// 使用
 }
