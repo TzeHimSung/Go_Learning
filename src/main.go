@@ -37,4 +37,9 @@
 
 // Int*, Uint*, Float*, Complex*: Bits
 // Array: Elem, Len
-// 
+// Chan: ChanDir, Elem
+// Func: In, NumIn, Out, NumOut, IsVariadic
+// Map: Key, Elem
+// Ptr: Elem
+// Slice: Elem
+// Struct: Field, FieldByIndex, FieldByName, FieldByNameFunc, NumField
