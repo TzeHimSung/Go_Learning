@@ -127,6 +127,82 @@
 // 	fmt.Println("slice type.PkgPath() =", sct.PkgPath())
 // }
 
+// package main
+
+// import (
+// 	"fmt"
+// 	"reflect"
+// )
+
+// // INT .
+// type INT int
+
+// // A ...
+// type A struct {
+// 	a int
+// }
+
+// // B .
+// type B struct {
+// 	b string
+// }
+
+// // Ita .
+// type Ita interface {
+// 	String() string
+// }
+
+// // String .
+// func (b B) String() string {
+// 	return b.b
+// }
+
+// func main() {
+// 	var a INT = 12
+// 	var b int = 14
+// 	// 实参是具体类型，reflect.TypeOf返回其静态类型
+// 	ta := reflect.TypeOf(a)
+// 	tb := reflect.TypeOf(b)
+// 	// INT和int是两个类型，不相等
+// 	if ta == tb {
+// 		fmt.Println("ta == tb")
+// 	} else {
+// 		fmt.Println("ta != tb")
+// 	}
+// 	fmt.Println(ta.Name())
+// 	fmt.Println(tb.Name())
+// 	// 底层基础类型
+// 	fmt.Println(ta.Kind().String())
+// 	fmt.Println(tb.Kind().String())
+// 	s1 := A{1}
+// 	s2 := B{"tata"}
+// 	// 实参是具体类型，reflect.TypeOf返回其静态类型
+// 	fmt.Println(reflect.TypeOf(s1).Name())
+// 	fmt.Println(reflect.TypeOf(s2).Name())
+// 	// Type的Kind()方法返回的是基础类型，类型A和B的底层基础都是struct
+// 	fmt.Println(reflect.TypeOf(s1).Kind().String()) // struct
+// 	fmt.Println(reflect.TypeOf(s2).Kind().String()) // struct
+// 	ita := new(Ita)
+// 	var itb Ita = s2
+// 	// 实参是未绑定具体变量的接口类型，reflect.TypeOf返回接口类型本身
+// 	// 也就是接口的静态类型
+// 	fmt.Println(reflect.TypeOf(ita).Elem().Name())          // Ita
+// 	fmt.Println(reflect.TypeOf(ita).Elem().Kind().String()) // interface
+// 	// 实参是绑定了具体变量的接口类型，reflect.TypeOf返回绑定的具体类型
+// 	// 也就是接口的动态类型
+// 	fmt.Println(reflect.TypeOf(itb).Name())          // B
+// 	fmt.Println(reflect.TypeOf(itb).Kind().String()) // struct
+// }
+
+// type Value struct{
+// 	// typ holds the type of the value represented by a value
+// 	typ *rtype
+// 	// Pointer-valued data or, if flagIndir is set, pointer to data.
+// 	// Valid when either flagIndir is set or typ.pointers() is true
+// 	ptr unsafe.Pointer
+// 	flag
+// }
+
 package main
 
 import (
@@ -134,62 +210,42 @@ import (
 	"reflect"
 )
 
-// INT .
-type INT int
-
-// A ...
-type A struct {
-	a int
+// User .
+type User struct {
+	ID, Age int
+	Name    string
 }
 
-// B .
-type B struct {
-	b string
+func (user User) String() {
+	fmt.Println("User:", user.ID, user.Name, user.Age)
 }
 
-// Ita .
-type Ita interface {
-	String() string
-}
-
-// String .
-func (b B) String() string {
-	return b.b
+// Info .
+func Info(o interface{}) {
+	// 获取value信息
+	v := reflect.ValueOf(o)
+	// 通过value获取type
+	t := v.Type()
+	// 类型名称
+	fmt.Println("Type:", t.Name())
+	// 访问接口字段名、字段类型和字段值信息
+	fmt.Println("Fields:")
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i)
+		value := v.Field(i).Interface()
+		// 类型查询
+		switch value := value.(type) {
+		case int:
+			fmt.Printf(" %6s: %v = %d\n", field.Name, field.Type, value)
+		case string:
+			fmt.Printf(" %6s: %v = %s\n", field.Name, field.Type, value)
+		default:
+			fmt.Printf(" %6s: %v = %d\n", field.Name, field.Type, value)
+		}
+	}
 }
 
 func main() {
-	var a INT = 12
-	var b int = 14
-	// 实参是具体类型，reflect.TypeOf返回其静态类型
-	ta := reflect.TypeOf(a)
-	tb := reflect.TypeOf(b)
-	// INT和int是两个类型，不相等
-	if ta == tb {
-		fmt.Println("ta == tb")
-	} else {
-		fmt.Println("ta != tb")
-	}
-	fmt.Println(ta.Name())
-	fmt.Println(tb.Name())
-	// 底层基础类型
-	fmt.Println(ta.Kind().String())
-	fmt.Println(tb.Kind().String())
-	s1 := A{1}
-	s2 := B{"tata"}
-	// 实参是具体类型，reflect.TypeOf返回其静态类型
-	fmt.Println(reflect.TypeOf(s1).Name())
-	fmt.Println(reflect.TypeOf(s2).Name())
-	// Type的Kind()方法返回的是基础类型，类型A和B的底层基础都是struct
-	fmt.Println(reflect.TypeOf(s1).Kind().String()) // struct
-	fmt.Println(reflect.TypeOf(s2).Kind().String()) // struct
-	ita := new(Ita)
-	var itb Ita = s2
-	// 实参是未绑定具体变量的接口类型，reflect.TypeOf返回接口类型本身
-	// 也就是接口的静态类型
-	fmt.Println(reflect.TypeOf(ita).Elem().Name())          // Ita
-	fmt.Println(reflect.TypeOf(ita).Elem().Kind().String()) // interface
-	// 实参是绑定了具体变量的接口类型，reflect.TypeOf返回绑定的具体类型
-	// 也就是接口的动态类型
-	fmt.Println(reflect.TypeOf(itb).Name())          // B
-	fmt.Println(reflect.TypeOf(itb).Kind().String()) // struct
+	u := User{1, 30, "Tom"}
+	Info(u)
 }

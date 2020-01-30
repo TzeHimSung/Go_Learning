@@ -83,9 +83,7 @@ func main() {
 	var q int = 0
 	fmt.Scanf("%d", &q)
 	for cnt := 1; cnt <= q; cnt++ {
-		var op int = 0
-		var arg1 int = 0
-		var arg2 int = 0
+		var op, arg1, arg2 = 0, 0, 0
 		fmt.Scanf("%d %d %d", &op, &arg1, &arg2)
 		if op == 1 {
 			update(1, arg1, 1, n, arg2)
