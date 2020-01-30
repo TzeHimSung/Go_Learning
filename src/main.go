@@ -203,6 +203,63 @@
 // 	flag
 // }
 
+// package main
+
+// import (
+// 	"fmt"
+// 	"reflect"
+// )
+
+// // User .
+// type User struct {
+// 	ID, Age int
+// 	Name    string
+// }
+
+// func (user User) String() {
+// 	fmt.Println("User:", user.ID, user.Name, user.Age)
+// }
+
+// // Info .
+// func Info(o interface{}) {
+// 	// 获取value信息
+// 	v := reflect.ValueOf(o)
+// 	// 通过value获取type
+// 	t := v.Type()
+// 	// 类型名称
+// 	fmt.Println("Type:", t.Name())
+// 	// 访问接口字段名、字段类型和字段值信息
+// 	fmt.Println("Fields:")
+// 	for i := 0; i < t.NumField(); i++ {
+// 		field := t.Field(i)
+// 		value := v.Field(i).Interface()
+// 		// 类型查询
+// 		switch value := value.(type) {
+// 		case int:
+// 			fmt.Printf(" %6s: %v = %d\n", field.Name, field.Type, value)
+// 		case string:
+// 			fmt.Printf(" %6s: %v = %s\n", field.Name, field.Type, value)
+// 		default:
+// 			fmt.Printf(" %6s: %v = %d\n", field.Name, field.Type, value)
+// 		}
+// 	}
+// }
+
+// func main() {
+// 	u := User{1, 30, "Tom"}
+// 	Info(u)
+// }
+
+// type A struct{
+// 	a int
+// }
+
+// type Aa A
+
+// type B struct{
+// 	b int
+// }
+
 package main
 
 import (
@@ -216,36 +273,17 @@ type User struct {
 	Name    string
 }
 
-func (user User) String() {
-	fmt.Println("User:", user.ID, user.Name, user.Age)
-}
-
-// Info .
-func Info(o interface{}) {
-	// 获取value信息
-	v := reflect.ValueOf(o)
-	// 通过value获取type
-	t := v.Type()
-	// 类型名称
-	fmt.Println("Type:", t.Name())
-	// 访问接口字段名、字段类型和字段值信息
-	fmt.Println("Fields:")
-	for i := 0; i < t.NumField(); i++ {
-		field := t.Field(i)
-		value := v.Field(i).Interface()
-		// 类型查询
-		switch value := value.(type) {
-		case int:
-			fmt.Printf(" %6s: %v = %d\n", field.Name, field.Type, value)
-		case string:
-			fmt.Printf(" %6s: %v = %s\n", field.Name, field.Type, value)
-		default:
-			fmt.Printf(" %6s: %v = %d\n", field.Name, field.Type, value)
-		}
-	}
-}
-
 func main() {
-	u := User{1, 30, "Tom"}
-	Info(u)
+	u := User{ID: 1, Name: "andes", Age: 20}
+	va := reflect.ValueOf(u)
+	vb := reflect.ValueOf(&u)
+	// 值类型是可修改的
+	fmt.Println(va.CanSet(), va.FieldByName("Name").CanSet())        // false false
+	fmt.Println(vb.CanSet(), vb.Elem().FieldByName("Name").CanSet()) // false true
+	fmt.Printf("%v\n", vb)
+	name := "shine"
+	vc := reflect.ValueOf(name)
+	// 通过set函数修改变量的值
+	vb.Elem().FieldByName("Name").Set(vc)
+	fmt.Printf("%v\n", vb)
 }
