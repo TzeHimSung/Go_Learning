@@ -260,30 +260,31 @@
 // 	b int
 // }
 
-package main
+// package main
 
-import (
-	"fmt"
-	"reflect"
-)
+// import (
+// 	"fmt"
+// 	"reflect"
+// )
 
-// User .
-type User struct {
-	ID, Age int
-	Name    string
-}
+// // User .
+// type User struct {
+// 	ID, Age int
+// 	Name    string
+// }
 
-func main() {
-	u := User{ID: 1, Name: "andes", Age: 20}
-	va := reflect.ValueOf(u)
-	vb := reflect.ValueOf(&u)
-	// 值类型是可修改的
-	fmt.Println(va.CanSet(), va.FieldByName("Name").CanSet())        // false false
-	fmt.Println(vb.CanSet(), vb.Elem().FieldByName("Name").CanSet()) // false true
-	fmt.Printf("%v\n", vb)
-	name := "shine"
-	vc := reflect.ValueOf(name)
-	// 通过set函数修改变量的值
-	vb.Elem().FieldByName("Name").Set(vc)
-	fmt.Printf("%v\n", vb)
-}
+// func main() {
+// 	u := User{ID: 1, Name: "andes", Age: 20}
+// 	va := reflect.ValueOf(u)
+// 	vb := reflect.ValueOf(&u)
+// 	// 值类型是可修改的
+// 	fmt.Println(va.CanSet(), va.FieldByName("Name").CanSet())        // false false
+// 	fmt.Println(vb.CanSet(), vb.Elem().FieldByName("Name").CanSet()) // false true
+// 	fmt.Printf("%v\n", vb)
+// 	name := "shine"
+// 	vc := reflect.ValueOf(name)
+// 	// 通过set函数修改变量的值
+// 	vb.Elem().FieldByName("Name").Set(vc)
+// 	fmt.Printf("%v\n", vb)
+// }
+
