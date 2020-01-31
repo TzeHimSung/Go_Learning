@@ -288,3 +288,22 @@
 // 	fmt.Printf("%v\n", vb)
 // }
 
+package main
+
+import "fmt"
+
+func f1() {
+	fmt.Println("f1")
+}
+
+func f2() {
+	fmt.Println("f2")
+}
+
+func main() {
+	funcs := make(map[string]func())
+	funcs["f1"] = f1
+	funcs["f2"] = f2
+	funcs["f1"]()
+	funcs["f2"]()
+}
