@@ -207,37 +207,121 @@
 // 	fmt.Println(a, b, c, d)
 // }
 
+// package main
+
+// import "fmt"
+
+// func f(a [3]int) {
+// 	a[2] = 10
+// 	fmt.Printf("%p, %v\n", &a, a)
+// }
+
+// func main() {
+// 	a := [3]int{1, 2, 3}
+// 	// 直接赋值是值拷贝
+// 	b := a
+// 	// 修改a元素并不影响b
+// 	a[2] = 4
+// 	fmt.Printf("%p, %v\n", &a, a)
+// 	fmt.Printf("%p, %v\n", &b, b)
+// 	// 数组作为函数参数仍然是值拷贝
+// 	f(a)
+// 	c := struct {
+// 		s [3]int
+// 	}{
+// 		s: a,
+// 	}
+// 	// 结构是值拷贝，内部的数组也是值拷贝
+// 	d := c
+// 	// 修改c中的数组元素值并不影响a
+// 	c.s[2] = 30
+// 	// 修改d中的数组元素值并不影响c
+// 	d.s[2] = 20
+// 	fmt.Printf("%p, %v\n", &a, a)
+// 	fmt.Printf("%p, %v\n", &c, c)
+// 	fmt.Printf("%p, %v\n", &d, d)
+// }
+
+// package main
+
+// import (
+// 	"fmt"
+// 	"reflect"
+// 	"unsafe"
+// )
+
+// func main() {
+// 	var a []int
+// 	b := make([]int, 0)
+// 	if a == nil {
+// 		fmt.Println("a is nil") // is nil
+// 	} else {
+// 		fmt.Println("a is not nil")
+// 	}
+// 	// 虽然b底层数组大小为0，但切片并不是nil
+// 	if b == nil {
+// 		fmt.Println("b is nil")
+// 	} else {
+// 		fmt.Println("b is not nil") // not nil
+// 	}
+// 	// 使用反射中的SliceHeader来获取切片运行时的数据结构
+// 	as := (*reflect.SliceHeader)(unsafe.Pointer(&a))
+// 	bs := (*reflect.SliceHeader)(unsafe.Pointer(&b))
+// 	fmt.Printf("len = %d, cap = %d, type = %d\n", len(a), cap(a), as.Data) // len=0, cap=0, type=0
+// 	fmt.Printf("len = %d, cap = %d, type = %d\n", len(b), cap(b), bs.Data) // len=0, cap=0, type=824634236352
+// }
+
+// package main
+
+// import (
+// 	"fmt"
+// 	"reflect"
+// 	"unsafe"
+// )
+
+// func main() {
+// 	a := []int{0, 1, 2, 3, 4, 5, 6}
+// 	b := a[0:4]
+// 	as := (*reflect.SliceHeader)(unsafe.Pointer(&a))
+// 	bs := (*reflect.SliceHeader)(unsafe.Pointer(&b))
+// 	// a、b共享底层数组
+// 	fmt.Printf("a = %v, len = %d, cap = %d, type = %d\n", a, len(a), cap(a), as.Data)
+// 	fmt.Printf("b = %v, len = %d, cap = %d, type = %d\n", b, len(b), cap(b), bs.Data)
+// 	b = append(b, 10, 11, 12)
+// 	// a、b继续共享底层数组，修改b会影响共享的底层数组，间接影响a
+// 	fmt.Printf("a = %v, len = %d, cap = %d, type = %d\n", a, len(a), cap(a), as.Data)
+// 	fmt.Printf("b = %v, len = %d, cap = %d, type = %d\n", b, len(b), cap(b), bs.Data)
+// 	// len(b) == 7, 底层数组容量是7，此时需要重新分配数组，并将原来数组值复制到新数组
+// 	b = append(b, 13, 14)
+// 	as = (*reflect.SliceHeader)(unsafe.Pointer(&a))
+// 	bs = (*reflect.SliceHeader)(unsafe.Pointer(&b))
+// 	// 可以看到a和b指向底层数组的指针已经不同了
+// 	fmt.Printf("a = %v, len = %d, cap = %d, type = %d\n", a, len(a), cap(a), as.Data)
+// 	fmt.Printf("b = %v, len = %d, cap = %d, type = %d\n", b, len(b), cap(b), bs.Data)
+// }
+
 package main
 
 import "fmt"
 
-func f(a [3]int) {
-	a[2] = 10
-	fmt.Printf("%p, %v\n", &a, a)
+func fa(a int) func(i int) int {
+	return func(i int) int {
+		fmt.Println(&a, a)
+		a = a + i
+		return a
+	}
 }
 
 func main() {
-	a := [3]int{1, 2, 3}
-	// 直接赋值是值拷贝
-	b := a
-	// 修改a元素并不影响b
-	a[2] = 4
-	fmt.Printf("%p, %v\n", &a, a)
-	fmt.Printf("%p, %v\n", &b, b)
-	// 数组作为函数参数仍然是值拷贝
-	f(a)
-	c := struct {
-		s [3]int
-	}{
-		s: a,
-	}
-	// 结构是值拷贝，内部的数组也是值拷贝
-	d := c
-	// 修改c中的数组元素值并不影响a
-	c.s[2] = 30
-	// 修改d中的数组元素值并不影响c
-	d.s[2] = 20
-	fmt.Printf("%p, %v\n", &a, a)
-	fmt.Printf("%p, %v\n", &c, c)
-	fmt.Printf("%p, %v\n", &d, d)
+	// f是一个闭包，包括对函数fa形式参数a的“同名引用”
+	f := fa(1)
+	fmt.Println(f(1))
+	fmt.Println(f(2))
 }
+
+/*
+0xc0000b2010 1
+2
+0xc0000b2010 2
+4
+*/
