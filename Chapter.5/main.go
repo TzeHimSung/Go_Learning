@@ -641,83 +641,83 @@
 // 	Done() <-chan struct{}
 // }
 
-package main
+// package main
 
-import (
-	"context"
-	"fmt"
-	"time"
-)
+// import (
+// 	"context"
+// 	"fmt"
+// 	"time"
+// )
 
-// 定义一个包含Context字段的新类型
-type otherContext struct {
-	context.Context
-}
+// // 定义一个包含Context字段的新类型
+// type otherContext struct {
+// 	context.Context
+// }
 
-func work(ctx context.Context, name string) {
-	for {
-		select {
-		case <-ctx.Done():
-			fmt.Printf("%s get msg to cancel\n", name)
-			return
-		default:
-			fmt.Printf("%s is running \n", name)
-			time.Sleep(1 * time.Second)
-		}
-	}
-}
+// func work(ctx context.Context, name string) {
+// 	for {
+// 		select {
+// 		case <-ctx.Done():
+// 			fmt.Printf("%s get msg to cancel\n", name)
+// 			return
+// 		default:
+// 			fmt.Printf("%s is running \n", name)
+// 			time.Sleep(1 * time.Second)
+// 		}
+// 	}
+// }
 
-func workWithValue(ctx context.Context, name string) {
-	for {
-		select {
-		case <-ctx.Done():
-			fmt.Printf("%s get msg to cancel\n", name)
-			return
-		default:
-			value := ctx.Value("key").(string)
-			fmt.Printf("%s is running value = %s\n", name, value)
-			time.Sleep(1 * time.Second)
-		}
-	}
-}
+// func workWithValue(ctx context.Context, name string) {
+// 	for {
+// 		select {
+// 		case <-ctx.Done():
+// 			fmt.Printf("%s get msg to cancel\n", name)
+// 			return
+// 		default:
+// 			value := ctx.Value("key").(string)
+// 			fmt.Printf("%s is running value = %s\n", name, value)
+// 			time.Sleep(1 * time.Second)
+// 		}
+// 	}
+// }
 
-func main() {
-	// 使用context.Background()构建一个WithCancel类型的上下文
-	ctxa, cancel := context.WithCancel(context.Background())
-	/*
-		ctxa内部状态---->ctxa=&cancelCtx{
-			Context: new(emptyCtx)
-		}
-	*/
-	// work模拟运行并检测前端的退出通知
-	go work(ctxa, "work1")
-	// 使用withdeadline包装前面的上下文对象ctxa
-	tm := time.Now().Add(3 * time.Second)
-	ctxb, _ := context.WithDeadline(ctxa, tm)
-	/*
-		ctxb内部状态---->ctxb=&timerCtx{
-			cancelCtx: ctxa
-			dataline: tm
-		}
-		同时触发ctxa，在children中维护ctxb作为子节点
-	*/
-	go work(ctxb, "work2")
-	// 使用withvalue包装前面的上下文对象ctxb
-	oc := otherContext{ctxb}
-	ctxc := context.WithValue(oc, "key", "andes,pass from main ")
-	/*
-		ctxc---->&cancelCtx{
-			Context: oc
-		}
-		同时通过oc.Context找到ctxb，通过ctxb.cancelCtx找到ctxa，在ctxa的children字段中维护ctxc作为其子节点
-	*/
-	go workWithValue(ctxc, "work3")
-	// 故意sleep10秒让work2、work3超时退出
-	time.Sleep(10 * time.Second)
-	// 显式调用work1的cancel方法通知其退出
-	cancel()
-	// 等待work1打印退出信息
-	time.Sleep(5 * time.Second)
-	fmt.Println("main stop")
-}
+// func main() {
+// 	// 使用context.Background()构建一个WithCancel类型的上下文
+// 	ctxa, cancel := context.WithCancel(context.Background())
+// 	/*
+// 		ctxa内部状态---->ctxa=&cancelCtx{
+// 			Context: new(emptyCtx)
+// 		}
+// 	*/
+// 	// work模拟运行并检测前端的退出通知
+// 	go work(ctxa, "work1")
+// 	// 使用withdeadline包装前面的上下文对象ctxa
+// 	tm := time.Now().Add(3 * time.Second)
+// 	ctxb, _ := context.WithDeadline(ctxa, tm)
+// 	/*
+// 		ctxb内部状态---->ctxb=&timerCtx{
+// 			cancelCtx: ctxa
+// 			dataline: tm
+// 		}
+// 		同时触发ctxa，在children中维护ctxb作为子节点
+// 	*/
+// 	go work(ctxb, "work2")
+// 	// 使用withvalue包装前面的上下文对象ctxb
+// 	oc := otherContext{ctxb}
+// 	ctxc := context.WithValue(oc, "key", "andes,pass from main ")
+// 	/*
+// 		ctxc---->&cancelCtx{
+// 			Context: oc
+// 		}
+// 		同时通过oc.Context找到ctxb，通过ctxb.cancelCtx找到ctxa，在ctxa的children字段中维护ctxc作为其子节点
+// 	*/
+// 	go workWithValue(ctxc, "work3")
+// 	// 故意sleep10秒让work2、work3超时退出
+// 	time.Sleep(10 * time.Second)
+// 	// 显式调用work1的cancel方法通知其退出
+// 	cancel()
+// 	// 等待work1打印退出信息
+// 	time.Sleep(5 * time.Second)
+// 	fmt.Println("main stop")
+// }
 

@@ -309,32 +309,32 @@
 // 	mhdr    []imethod // 接口的方法
 // }
 
-package main
+// package main
 
-import "fmt"
+// import "fmt"
 
-// Caler ...
-type Caler interface {
-	Add(a, b int) int
-	Sub(a, b int) int
-}
+// // Caler ...
+// type Caler interface {
+// 	Add(a, b int) int
+// 	Sub(a, b int) int
+// }
 
-// Adder ...
-type Adder struct {
-	id int
-}
+// // Adder ...
+// type Adder struct {
+// 	id int
+// }
 
-// Add ...
-func (adder Adder) Add(a, b int) int {
-	return a + b
-}
+// // Add ...
+// func (adder Adder) Add(a, b int) int {
+// 	return a + b
+// }
 
-// Sub ...
-func (adder Adder) Sub(a, b int) int {
-	return a - b
-}
+// // Sub ...
+// func (adder Adder) Sub(a, b int) int {
+// 	return a - b
+// }
 
-func main() {
-	var m Caler = Adder{id: 1234}
-	fmt.Println(m.Add(1, 2))
-}
+// func main() {
+// 	var m Caler = Adder{id: 1234}
+// 	fmt.Println(m.Add(1, 2))
+// }

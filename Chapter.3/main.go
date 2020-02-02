@@ -1,6 +1,6 @@
-package main
+// package main
 
-import "fmt"
+// import "fmt"
 
 // Person ... named type
 // type Person struct {
@@ -415,17 +415,17 @@ import "fmt"
 // 	fmt.Println(zz.get())
 // }
 
-type add func(int, int) int
+// type add func(int, int) int
 
-func getAFunction() add {
-	f := func(a, b int) (ret int) {
-		ret = a + b
-		return
-	}
-	return f
-}
+// func getAFunction() add {
+// 	f := func(a, b int) (ret int) {
+// 		ret = a + b
+// 		return
+// 	}
+// 	return f
+// }
 
-func main() {
-	f := getAFunction()
-	fmt.Println(f(1, 2))
-}
+// func main() {
+// 	f := getAFunction()
+// 	fmt.Println(f(1, 2))
+// }

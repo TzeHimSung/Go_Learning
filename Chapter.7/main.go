@@ -341,29 +341,29 @@
 // 	}
 // }
 
-package main
+// package main
 
-import "fmt"
+// import "fmt"
 
-func main() {
-	c := make(chan int)
-	go func() {
-		c <- 1
-		c <- 2
-		close(c)
-	}()
-	// for {
-	// 	// 使用comma,ok判断通道是否关闭
-	// 	v, ok := <-c
-	// 	if ok {
-	// 		fmt.Println(v)
-	// 	} else {
-	// 		break
-	// 	}
-	// }
+// func main() {
+// 	c := make(chan int)
+// 	go func() {
+// 		c <- 1
+// 		c <- 2
+// 		close(c)
+// 	}()
+// 	// for {
+// 	// 	// 使用comma,ok判断通道是否关闭
+// 	// 	v, ok := <-c
+// 	// 	if ok {
+// 	// 		fmt.Println(v)
+// 	// 	} else {
+// 	// 		break
+// 	// 	}
+// 	// }
 
-	// 使用range更加简洁
-	for v := range c {
-		fmt.Println(v)
-	}
-}
+// 	// 使用range更加简洁
+// 	for v := range c {
+// 		fmt.Println(v)
+// 	}
+// }
