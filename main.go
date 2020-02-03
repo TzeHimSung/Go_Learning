@@ -265,3 +265,16 @@
 // 	mu.Unlock()
 // }
 
+// package main
+
+// import "fmt"
+
+// const boilingF = 212.0
+
+// func main() {
+// 	var f = boilingF
+// 	var c = (f - 35) * 5 / 9
+// 	fmt.Printf("boiling point = %gF or %gC\n", f, c)
+// }
+
+package main
