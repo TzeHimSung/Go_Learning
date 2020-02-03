@@ -277,16 +277,149 @@
 // 	fmt.Printf("boiling point = %gF or %gC\n", f, c)
 // }
 
+// package main
+
+// import "fmt"
+
+// func main() {
+// 	var p1, p2 = getV(), getV()
+// 	fmt.Println(p1, p2, p1 == p2)
+// }
+
+// func getV() *int {
+// 	value := 100
+// 	return &value
+// }
+
+// package main
+
+// import "fmt"
+
+// func incr(p *int) int {
+// 	*p++
+// 	return *p
+// }
+
+// func main() {
+// 	v := 1
+// 	incr(&v)
+// 	fmt.Println(incr(&v))
+// }
+
+// package main
+
+// import (
+// 	"flag"
+// 	"fmt"
+// 	"strings"
+// )
+
+// var n = flag.Bool("n", false, "omit trailing newline")
+// var sep = flag.String("s", " ", "separator")
+
+// func main() {
+// 	flag.Parse()
+// 	fmt.Print(strings.Join(flag.Args(), *sep))
+// 	if !*n {
+// 		fmt.Println()
+// 	}
+// }
+
+// package main
+
+// import "fmt"
+
+// func main() {
+// 	p := new(int)
+// 	fmt.Println(p, *p)
+// }
+
+// package main
+
+// import (
+// 	"fmt"
+// )
+
+// func getAddr() *int {
+// 	value := 0
+// 	return &value
+// }
+
+// func main() {
+// 	p := getAddr()
+// 	*p = 10
+// 	fmt.Println(p, *p)
+// }
+
+// package main
+
+// import "fmt"
+
+// var global *int // be nil firstly
+
+// func f() {
+// 	var x int = 1
+// 	global = &x
+// }
+
+// func g() {
+// 	y := new(int)
+// 	*y = 1
+// }
+
+// func main() {
+// 	f()
+// 	fmt.Println(global, *global)
+// }
+
+// package main
+
+// import "fmt"
+
+// func gcd(x, y int) int {
+// 	for y != 0 {
+// 		x, y = y, x%y
+// 	}
+// 	return x
+// }
+
+// func main() {
+// 	var a, b int
+// 	fmt.Scanf("%d%d", &a, &b)
+// 	fmt.Println(gcd(a, b))
+// }
+
+// package main
+
+// import "fmt"
+
+// func main() {
+// 	medals := []string{"gold", "silver", "bronze", "test2"}
+// 	fmt.Println(medals, len(medals), cap(medals))
+// 	medals = append(medals, "test")
+// 	medals = append(medals, "test")
+// 	medals = append(medals, "test")
+// 	medals = append(medals, "test")
+// 	medals = append(medals, "test")
+// 	fmt.Println(medals, len(medals), cap(medals))
+// }
+
+// package main
+
+// import (
+// 	"fmt"
+// 	"golearning/tempconv"
+// )
+
+// func main() {
+// 	fmt.Printf("%g\n", tempconv.BoilingC-tempconv.FreezingC)
+// 	boilingF := tempconv.CToF(tempconv.BoilingC)
+// 	fmt.Printf("%g\n", boilingF-CToF(FreezingC)) // "180" °F
+// 	// fmt.Printf("%g\n", boilingF-FreezingC)       // compile error: type mismatch
+// }
+
 package main
 
-import "fmt"
-
 func main() {
-	var p1, p2 = getV(), getV()
-	fmt.Println(p1, p2, p1 == p2)
-}
 
-func getV() *int {
-	value := 100
-	return &value
 }
