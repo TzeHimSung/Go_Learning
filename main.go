@@ -278,3 +278,15 @@
 // }
 
 package main
+
+import "fmt"
+
+func main() {
+	var p1, p2 = getV(), getV()
+	fmt.Println(p1, p2, p1 == p2)
+}
+
+func getV() *int {
+	value := 100
+	return &value
+}
