@@ -98,3 +98,26 @@
 // 	fmt.Println(remove(s, 2))
 // }
 
+// package main
+
+// import (
+// 	"fmt"
+// 	"sort"
+// )
+
+// func main() {
+// 	var name []string = []string{"charlie", "alice"}
+// 	ages := map[string]int{
+// 		"alice":   13,
+// 		"charlie": 34,
+// 	}
+// 	fmt.Println(ages)
+// 	delete(ages, "alice")
+// 	fmt.Println(ages)
+// 	ages["alice"] = 13
+// 	sort.Strings(name)
+// 	for _, val := range name {
+// 		fmt.Print(ages[val], " ")
+// 	}
+// }
+
