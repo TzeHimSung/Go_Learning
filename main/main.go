@@ -121,3 +121,115 @@
 // 	}
 // }
 
+// package main
+
+// import "fmt"
+
+// func main() {
+// 	var ages map[string]int = make(map[string]int)
+// 	ages["carol"] = 21
+// 	fmt.Println(ages)
+// }
+
+// package main
+
+// import (
+// 	"bufio"
+// 	"fmt"
+// 	"os"
+// )
+
+// func main() {
+// 	seen := make(map[string]bool)
+// 	input := bufio.NewScanner(os.Stdin)
+// 	for input.Scan() {
+// 		line := input.Text()
+// 		if !seen[line] {
+// 			seen[line] = true
+// 			fmt.Println(line)
+// 		}
+// 	}
+// 	if err := input.Err(); err != nil {
+// 		fmt.Fprintf(os.Stderr, "dedup: %v\n", err)
+// 		os.Exit(1)
+// 	}
+// }
+
+// package main
+
+// import "fmt"
+
+// var m = make(map[string]int)
+
+// func k(list []string) string {
+// 	return fmt.Sprintf("%q", list)
+// }
+
+// // Add .
+// func Add(list []string) {
+// 	m[k(list)]++
+// }
+
+// // Count .
+// func Count(list []string) int {
+// 	return m[k(list)]
+// }
+
+// func main() {
+// 	a := []string{"a", "b", "c"}
+// 	aa := []string{"aa", "bb", "cc"}
+// 	Add(a)
+// 	fmt.Println(Count(a))
+// 	fmt.Println(Count(aa))
+// 	Add(aa)
+// 	fmt.Println(Count(aa))
+// }
+
+// package main
+
+// import (
+// 	"bufio"
+// 	"fmt"
+// 	"io"
+// 	"os"
+// 	"unicode"
+// 	"unicode/utf8"
+// )
+
+// func main() {
+// 	counts := make(map[rune]int)
+// 	var utflen [utf8.UTFMax + 1]int
+// 	invalid := 0
+
+// 	in := bufio.NewReader(os.Stdin)
+// 	for {
+// 		r, n, err := in.ReadRune()
+// 		if err != io.EOF {
+// 			break
+// 		}
+// 		if err != nil {
+// 			fmt.Fprintf(os.Stderr, "charcount: %v\n", err)
+// 			os.Exit(1)
+// 		}
+// 		if r == unicode.ReplacementChar && n == 1 {
+// 			invalid++
+// 			continue
+// 		}
+// 		counts[r]++
+// 		utflen[n]++
+// 	}
+// 	fmt.Printf("rune\tcount\n")
+// 	for c, n := range counts {
+// 		fmt.Printf("%q\t%d\n", c, n)
+// 	}
+// 	fmt.Printf("\nlen\tcount\n")
+// 	for i, n := range utflen {
+// 		if i > 0 {
+// 			fmt.Printf("%d\t%d\n", i, n)
+// 		}
+// 	}
+// 	if invalid > 0 {
+// 		fmt.Printf("\n%d invalid UTF-8 characters\n", invalid)
+// 	}
+// }
+
