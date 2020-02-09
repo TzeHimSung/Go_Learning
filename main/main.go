@@ -233,3 +233,96 @@
 // 	}
 // }
 
+// package main
+
+// import (
+// 	"fmt"
+// 	"time"
+// )
+
+// // Employee .
+// type Employee struct {
+// 	ID            int
+// 	Name, Address string
+// 	DoB           time.Time
+// 	Position      string
+// 	Salary        int
+// 	ManagerID     int
+// }
+
+// var dilbert Employee = Employee{
+// 	ID:        10,
+// 	Name:      "xiaohong",
+// 	Address:   "guangzhou",
+// 	Position:  "guangzhou",
+// 	Salary:    45000,
+// 	ManagerID: 2,
+// }
+
+// func (emp Employee) getAddress() *Employee {
+// 	return &emp
+// }
+
+// func (emp Employee) getIDAddress() *int {
+// 	return &emp.ID
+// }
+
+// func main() {
+// 	ptr := &dilbert
+// 	fmt.Println(dilbert)
+// 	fmt.Println(&ptr)
+// 	fmt.Println(ptr.getIDAddress())
+// 	fmt.Println(dilbert.getIDAddress())
+// }
+
+/*
+利用二叉树中序遍历实现排序
+*/
+package main
+
+import "fmt"
+
+type node struct {
+	value       int
+	left, right *node
+}
+
+func sort(values []int) {
+	var root *node
+	for _, v := range values {
+		root = add(root, v)
+		appendValues(values[:0], root)
+	}
+}
+
+func appendValues(values []int, t *node) []int {
+	if t != nil {
+		values = appendValues(values, t.left)
+		values = append(values, t.value)
+		values = appendValues(values, t.right)
+	}
+	fmt.Println(values)
+	return values
+}
+
+func add(t *node, value int) *node {
+	// if meet leaf node
+	if t == nil {
+		t = new(node)
+		t.value = value
+		return t
+	}
+	// if not left, compare value
+	if value < t.value {
+		t.left = add(t.left, value)
+	} else {
+		t.right = add(t.right, value)
+	}
+	return t
+}
+
+func main() {
+	val := []int{10, 9, 2, 4, 1, 5, 6}
+	sort(val)
+	fmt.Println(val)
+}
