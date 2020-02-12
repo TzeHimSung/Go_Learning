@@ -104,6 +104,14 @@
 
 package main
 
-func main() {
+import "fmt"
 
+func get() *int {
+	a := 10
+	return &a
+}
+
+func main() {
+	b := get()
+	fmt.Println(b, *b)
 }
