@@ -10,7 +10,7 @@ const (
 )
 
 func main() {
-	string and rune
+	// string and rune
 	s := "hello world"
 	c := []rune(s)
 	for i := 0; i < len(c); i++ {
@@ -198,16 +198,16 @@ func main() {
 	fmt.Printf("grade=%c\n", grade)
 
 	// for and continue
-	L1:
-		for i := 0; ; i++ {
-			for j := 0; ; j++ {
-				if i >= 5 {
-					continue L1
-				}
-				if j > 10 {
-					continue
-				}
+L1:
+	for i := 0; ; i++ {
+		for j := 0; ; j++ {
+			if i >= 5 {
+				continue L1
+			}
+			if j > 10 {
+				continue
 			}
 		}
+	}
 
 }
